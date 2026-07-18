@@ -201,9 +201,90 @@ export function processUserInput(state: ChatState, input: string): ChatState {
   ]
 
   switch (state.step) {
-    case 'greeting':
-    case 'done': {
+    case 'greeting': {
       const concerns = detectConcerns(input)
+      return {
+        step: 'ask_age',
+        profile: { ...state.profile, concerns },
+        messages: addMessages({
+          id: `a-${Date.now()}`,
+          role: 'assistant',
+          content:
+            'ご相談ありがとうございます。\nいくつか状況を確認させてください。\n\n**現在のご年齢**はおいくつですか？（数字で入力してください）',
+        }),
+      }
+    }
+
+    case 'done': {
+      if (input === '最初に戻る') {
+        return {
+          step: 'ask_age',
+          profile: { concerns: [] },
+          messages: addMessages({
+            id: `a-${Date.now()}`,
+            role: 'assistant',
+            content:
+              '最初からやり直しましょう！\n\n**現在のご年齢**はおいくつですか？（数字で入力してください）',
+          }),
+        }
+      }
+
+      const concerns = detectConcerns(input)
+
+      // プロフィールが揃っていれば質問をスキップして即結果表示
+      if (
+        state.profile.age &&
+        state.profile.familyStructure &&
+        state.profile.employment &&
+        state.profile.prefecture
+      ) {
+        const updatedProfile = { ...state.profile, concerns }
+        const finalProfile: UserProfile = {
+          age: updatedProfile.age!,
+          prefecture: updatedProfile.prefecture!,
+          city: '',
+          familyStructure: updatedProfile.familyStructure!,
+          hasChildren: updatedProfile.hasChildren ?? false,
+          childrenCount: (updatedProfile.hasChildren ?? false) ? 1 : 0,
+          employment: updatedProfile.employment!,
+          incomeRange: '200-400',
+          concerns: updatedProfile.concerns,
+        }
+
+        const results = filterSubsidies(finalProfile, getAllSubsidies())
+        const topResults = results.slice(0, 6)
+        const allSubsidies = getAllSubsidies()
+        const missed = topResults.length > 0
+          ? getMissedSubsidies(finalProfile, topResults, allSubsidies)
+          : []
+        const nextConsultations = getNextConsultations(finalProfile)
+
+        const hasPrefectureData = topResults.some((r) => r.subsidy.providerLevel === 'prefectural')
+        const prefectureNote = hasPrefectureData
+          ? `\n\n**${finalProfile.prefecture}の制度**も含めてご案内しています。`
+          : ''
+
+        const resultContent =
+          topResults.length > 0
+            ? `承知しました！前回の情報を引き継いでご案内します。\n\n**${topResults.length}件の制度**が利用できる可能性があります。${prefectureNote}`
+            : '現在のデータでは該当する制度が見つかりませんでした。\n条件を変えてもう一度ご相談いただくか、お住まいの市区町村の相談窓口をご利用ください。'
+
+        return {
+          step: 'done',
+          profile: updatedProfile,
+          messages: addMessages({
+            id: `a-${Date.now()}`,
+            role: 'assistant',
+            content: resultContent,
+            results: topResults,
+            missedSubsidies: missed.length > 0 ? missed : undefined,
+            nextConsultations: nextConsultations.length > 0 ? nextConsultations : undefined,
+            quickReplies: ['別の相談をする', '最初に戻る'],
+          }),
+        }
+      }
+
+      // プロフィール未完成なら通常の質問フロー
       return {
         step: 'ask_age',
         profile: { ...state.profile, concerns },
