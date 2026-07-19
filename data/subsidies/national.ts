@@ -992,4 +992,274 @@ export const nationalSubsidies: Subsidy[] = [
     officialUrl: 'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000267520.html',
     lastUpdated: '2024-01-01',
   },
+
+  // ─── 住宅（追加） ───────────────────────────────────────────
+  {
+    id: 'national-031',
+    name: '住宅借入金等特別控除（住宅ローン控除）',
+    providerLevel: 'national',
+    providerName: '国税庁',
+    category: 'housing',
+    tags: ['住宅ローン', '税控除', '所得税', '住民税', '減税', 'マイホーム'],
+    shortDescription:
+      '住宅ローンを利用してマイホームを購入・新築・増改築した場合、年末ローン残高の0.7%が所得税から控除される制度です。',
+    aiSummary: {
+      amount: '年末ローン残高×0.7%（上限4,500万円残高ベース、最大31.5万円/年・最長13年間）',
+      targetPeople:
+        '住宅ローンを利用して新築・中古住宅を購入または増改築し入居した方が対象になる可能性があります（合計所得金額2,000万円以下）',
+      deadline: '入居した翌年の確定申告（2年目以降は年末調整でも可）',
+      requiredDocuments: [
+        '確定申告書',
+        '住宅借入金等特別控除額の計算明細書',
+        '登記事項証明書（登記簿謄本）',
+        '住宅ローンの年末残高等証明書',
+        '売買契約書または建築請負契約書の写し',
+      ],
+      applicationPlace: '住所管轄の税務署（確定申告）または勤務先（2年目以降の年末調整）',
+      notes: [
+        '2022年以降は控除率が1%→0.7%に変更（省エネ住宅は借入上限額が引き上げ）',
+        '控除期間は最長13年間（2022〜2025年入居分）',
+        '合計所得金額が2,000万円を超える年は控除対象外',
+      ],
+      difficulty: 3,
+      estimatedApplicationTime: '1〜3時間（初年度確定申告時）',
+    },
+    conditions: {},
+    officialUrl: 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1213.htm',
+    lastUpdated: '2024-01-01',
+  },
+
+  // ─── 年金・収入（追加） ───────────────────────────────────────────
+  {
+    id: 'national-032',
+    name: '国民年金保険料の免除・猶予制度',
+    providerLevel: 'national',
+    providerName: '日本年金機構',
+    category: 'income',
+    tags: ['国民年金', '免除', '猶予', '低所得', '失業', '保険料'],
+    shortDescription:
+      '低所得・失業等により国民年金保険料の支払いが困難な方に、保険料を全額または一部免除・猶予する制度です。',
+    aiSummary: {
+      amount: '全額免除〜4分の1免除まで段階的に設定（免除中も受給資格期間に算入）',
+      targetPeople:
+        '前年所得が一定基準以下の方、または失業・天災等の特例により国民年金保険料の納付が困難な方が対象になる可能性があります',
+      deadline: '随時申請可（申請月の2年前の月分まで遡って申請可）',
+      requiredDocuments: [
+        '国民年金保険料免除・納付猶予申請書',
+        '失業の場合は雇用保険受給資格者証または離職票（写し）',
+      ],
+      applicationPlace: '住所管轄の市区町村の国民年金担当窓口または年金事務所',
+      notes: [
+        '全額免除の場合、将来の年金額は通常の半額程度（追納で満額に近づけられる）',
+        '50歳未満は老齢基礎年金を除く「納付猶予制度」も選択可能',
+        '申請は毎年度更新が必要（7月〜翌年6月分）',
+      ],
+      difficulty: 2,
+      estimatedApplicationTime: '30〜60分',
+    },
+    conditions: { employmentTypes: ['unemployed', 'self_employed'] },
+    officialUrl: 'https://www.nenkin.go.jp/service/kokunen/menjo/20150428.html',
+    lastUpdated: '2024-01-01',
+  },
+
+  // ─── 医療（追加） ───────────────────────────────────────────
+  {
+    id: 'national-033',
+    name: '医療費控除',
+    providerLevel: 'national',
+    providerName: '国税庁',
+    category: 'medical',
+    tags: ['医療費', '税控除', '確定申告', '所得控除', '歯科', '通院'],
+    shortDescription:
+      '1年間に支払った医療費が10万円（または所得の5%）を超えた場合、超えた分を所得から控除し税金が軽減される制度です。',
+    aiSummary: {
+      amount: '（医療費合計−10万円）×所得税率分が還付（所得200万円未満の場合は所得×5%超過分）',
+      targetPeople:
+        '1月〜12月の自己負担医療費が10万円を超えた方、または同一生計の家族の医療費合計が10万円を超えた方が対象になる可能性があります',
+      deadline: '翌年2月16日〜3月15日の確定申告期間（5年間は遡って還付申告可能）',
+      requiredDocuments: [
+        '確定申告書',
+        '医療費控除の明細書',
+        '医療費の領収書（自宅で5年間保管が必要）',
+      ],
+      applicationPlace: '住所管轄の税務署（e-Taxによるオンライン申告も可）',
+      notes: [
+        '保険金等で補填された金額は差し引く必要がある',
+        '市販薬は「セルフメディケーション税制」（12,000円超が対象）との選択適用',
+        '歯の治療・妊娠出産費用・レーシック手術なども対象になる場合あり',
+      ],
+      difficulty: 2,
+      estimatedApplicationTime: '1〜2時間（領収書整理含む）',
+    },
+    conditions: {},
+    officialUrl: 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1120.htm',
+    lastUpdated: '2024-01-01',
+  },
+
+  // ─── 子育て（追加） ───────────────────────────────────────────
+  {
+    id: 'national-034',
+    name: '不妊治療の保険適用制度',
+    providerLevel: 'national',
+    providerName: '厚生労働省',
+    category: 'childcare',
+    tags: ['不妊治療', '保険適用', '体外受精', '顕微授精', '人工授精'],
+    shortDescription:
+      '2022年4月より体外受精・顕微授精が健康保険の対象となり、治療費の自己負担が大幅に軽減されました。',
+    aiSummary: {
+      amount: '保険適用で自己負担3割（体外受精1回あたり自己負担9〜10万円程度）',
+      targetPeople:
+        '妊娠を望む夫婦（事実婚含む）で、医師に不妊治療が必要と判断された方が対象になる可能性があります（女性が43歳未満・通算回数制限あり）',
+      deadline: '随時受診・申請可（保険適用は女性43歳未満、通算6回まで等の制限あり）',
+      requiredDocuments: ['健康保険証', '医療機関への受診のみ（保険診療として算定）'],
+      applicationPlace: '不妊治療を行う医療機関（事前に保険適用医療機関か確認を）',
+      notes: [
+        '保険適用外の「先進医療」と組み合わせる際は混合診療のルールに注意',
+        '43歳以上は保険適用外だが都道府県独自の助成制度が利用できる場合あり',
+        '男性不妊の手術も保険適用の対象',
+      ],
+      difficulty: 2,
+      estimatedApplicationTime: '医療機関での通常受診手続きのみ',
+    },
+    conditions: { ageMax: 43 },
+    officialUrl:
+      'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kodomo/kodomo_kosodate/furyo/index.html',
+    lastUpdated: '2024-04-01',
+  },
+
+  // ─── 生活・収入（追加） ───────────────────────────────────────────
+  {
+    id: 'national-035',
+    name: '生活福祉資金貸付制度',
+    providerLevel: 'national',
+    providerName: '厚生労働省（社会福祉協議会）',
+    category: 'income',
+    tags: ['貸付', '低所得', '生活資金', '緊急小口資金', '福祉'],
+    shortDescription:
+      '低所得世帯・高齢者世帯・障害者世帯に対して、生活再建のための資金を低利息（または無利子）で貸し付ける制度です。',
+    aiSummary: {
+      amount: '総合支援資金：生活費月20万円以内（単身は月15万円以内）最長12ヶ月 等',
+      targetPeople:
+        '低所得世帯・高齢者世帯・障害者世帯で、一時的な資金が必要な方が対象になる可能性があります（収入・資産要件あり）',
+      deadline: '随時申請可（市区町村社会福祉協議会に相談）',
+      requiredDocuments: [
+        '借入申込書',
+        '収入の状況がわかる書類',
+        '住民票',
+        'マイナンバー確認書類',
+      ],
+      applicationPlace: '住んでいる市区町村の社会福祉協議会',
+      notes: [
+        '返済が必要な「貸付制度」であり、給付金ではない',
+        '生活保護受給世帯は対象外',
+        '自立相談支援機関の支援と合わせて活用されることが多い',
+      ],
+      difficulty: 3,
+      estimatedApplicationTime: '1〜2時間（相談含む）',
+    },
+    conditions: {},
+    officialUrl:
+      'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/hukushi_kaigo/seikatsuhogo/seikatsu-kyufu/index.html',
+    lastUpdated: '2024-01-01',
+  },
+
+  // ─── 雇用（追加） ───────────────────────────────────────────
+  {
+    id: 'national-036',
+    name: 'ひとり親家庭高等技能訓練促進費等支援事業',
+    providerLevel: 'national',
+    providerName: '厚生労働省（市区町村）',
+    category: 'employment',
+    tags: ['ひとり親', '資格取得', '生活支援', '看護師', '介護福祉士', '月額支援'],
+    shortDescription:
+      'ひとり親家庭の親が2年以上の養成機関で看護師・介護福祉士等の資格取得を目指す間、生活費として月10万〜14万円を支給します。',
+    aiSummary: {
+      amount: '非課税世帯：月額14万1,000円、課税世帯：月額10万500円（訓練期間中）',
+      targetPeople:
+        '児童扶養手当を受給中（または同等の所得水準）のひとり親家庭の親で、看護師・介護福祉士等の資格取得のため2年以上の養成課程に在学している方が対象になる可能性があります',
+      deadline: '訓練開始前に申請（市区町村への事前相談・申請が必要）',
+      requiredDocuments: [
+        '申請書',
+        '在学証明書',
+        '児童扶養手当証書（またはそれに相当する書類）',
+        '戸籍謄本',
+        '収入証明書類',
+      ],
+      applicationPlace: '住んでいる市区町村の担当窓口（福祉事務所等）',
+      notes: [
+        '看護師・准看護師・介護福祉士・保育士・理学療法士なども対象',
+        '養成機関の最終年次には「修了一時金」12万500円（非課税世帯は16万3,200円）が支給',
+        '教育訓練給付金（ハローワーク）との併用も可',
+      ],
+      difficulty: 3,
+      estimatedApplicationTime: '1〜2時間（事前相談含む）',
+    },
+    conditions: { hasChildren: true, familyStructures: ['single_parent'] },
+    officialUrl:
+      'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kodomo/kodomo_kosodate/hitorioya/index.html',
+    lastUpdated: '2024-04-01',
+  },
+
+  // ─── 教育（追加） ───────────────────────────────────────────
+  {
+    id: 'national-037',
+    name: '高校生等奨学給付金',
+    providerLevel: 'national',
+    providerName: '文部科学省（都道府県）',
+    category: 'education',
+    tags: ['高校', '奨学金', '給付型', '返還不要', '低所得', '教育費'],
+    shortDescription:
+      '高校等に通う低所得世帯の生徒に対して、授業料以外の教育費（教科書代・通学費等）を支援する返還不要の給付金です。',
+    aiSummary: {
+      amount: '年額3万2,300円〜13万8,000円（学校種別・扶養人数・世帯状況により異なる）',
+      targetPeople:
+        '高等学校等に在籍する生徒の保護者で、生活保護世帯または住民税非課税世帯に該当する方が対象になる可能性があります',
+      deadline: '在学する学校を通じて随時申請可',
+      requiredDocuments: ['申請書（学校から配布）', '住民税非課税を証明する書類'],
+      applicationPlace: '在籍している高等学校等',
+      notes: [
+        '高等学校等就学支援金（授業料無償化）とは別の制度で、授業料以外の経費をカバー',
+        '私立高校・通信制高校の生徒も対象',
+        '都道府県により給付額が若干異なる',
+      ],
+      difficulty: 1,
+      estimatedApplicationTime: '30分以内（学校経由）',
+    },
+    conditions: { hasChildren: true },
+    officialUrl: 'https://www.mext.go.jp/a_menu/shotou/mushouka/1342674.htm',
+    lastUpdated: '2024-04-01',
+  },
+
+  // ─── 自営業・フリーランス ───────────────────────────────────────────
+  {
+    id: 'national-038',
+    name: '小規模企業共済制度',
+    providerLevel: 'national',
+    providerName: '中小企業基盤整備機構',
+    category: 'employment',
+    tags: ['自営業', 'フリーランス', '退職金', '節税', '積立', '掛金控除'],
+    shortDescription:
+      '小規模企業の経営者・個人事業主が廃業・退職した際に退職金を受け取れる国の共済制度です。掛金が全額所得控除になります。',
+    aiSummary: {
+      amount: '掛金月額1,000〜70,000円（全額所得控除）、共済金は掛金総額×付加率（廃業時等に受取）',
+      targetPeople:
+        '常時使用する従業員が20人以下の小規模企業の役員・個人事業主・フリーランスが対象になる可能性があります',
+      deadline: '随時加入可',
+      requiredDocuments: [
+        '加入申込書（金融機関または中小機構窓口でもらえる）',
+        '確定申告書の写し（または開業届の写し等）',
+      ],
+      applicationPlace: '商工会議所・商工会または代理店となっている金融機関',
+      notes: [
+        '掛金が全額所得控除のため節税効果が高い（掛金70,000円/月で年間約84万円控除）',
+        '廃業・引退時だけでなく、事業資金の低利融資制度も利用可能',
+        '掛金は月1,000円〜70,000円の範囲で500円単位で変更可能',
+      ],
+      difficulty: 2,
+      estimatedApplicationTime: '1〜2時間（書類準備含む）',
+    },
+    conditions: { employmentTypes: ['self_employed'] },
+    officialUrl: 'https://www.smrj.go.jp/kyosai/skyosai/',
+    lastUpdated: '2024-01-01',
+  },
 ]
