@@ -1,47 +1,30 @@
 'use client'
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { getAllSubsidies } from '@/data/index'
-import type { Subsidy } from '@/types/subsidy'
+import { useFavorites } from '@/lib/useFavorites'
 import { CATEGORY_LABELS, CATEGORY_COLORS, CATEGORY_ICONS, PROVIDER_LABELS, PROVIDER_COLORS } from '@/lib/constants'
 import FavoriteButton from '@/components/common/FavoriteButton'
 
-const STORAGE_KEY = 'subsidy_favorites'
-
 export default function FavoritesPage() {
-  const [favoriteIds, setFavoriteIds] = useState<string[] | null>(null)
+  const { favorites, loaded } = useFavorites()
 
-  useEffect(() => {
-    const onStorage = () => {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY)
-        setFavoriteIds(stored ? JSON.parse(stored) : [])
-      } catch {
-        setFavoriteIds([])
-      }
-    }
-    onStorage()
-    window.addEventListener('storage', onStorage)
-    return () => window.removeEventListener('storage', onStorage)
-  }, [])
-
-  if (favoriteIds === null) {
+  if (!loaded) {
     return <div className="max-w-3xl mx-auto px-4 py-10 text-center text-slate-400">読み込み中...</div>
   }
 
   const allSubsidies = getAllSubsidies()
-  const favorites: Subsidy[] = allSubsidies.filter((s) => favoriteIds.includes(s.id))
+  const savedSubsidies = allSubsidies.filter((s) => favorites.includes(s.id))
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-xl font-bold text-slate-800 mb-6">
         ★ お気に入り
-        {favorites.length > 0 && (
-          <span className="ml-2 text-sm font-normal text-slate-500">（{favorites.length}件）</span>
+        {savedSubsidies.length > 0 && (
+          <span className="ml-2 text-sm font-normal text-slate-500">（{savedSubsidies.length}件）</span>
         )}
       </h1>
 
-      {favorites.length === 0 ? (
+      {savedSubsidies.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-xl border border-slate-100">
           <p className="text-4xl mb-4">☆</p>
           <p className="text-slate-500 mb-6">まだお気に入りがありません</p>
@@ -54,7 +37,7 @@ export default function FavoritesPage() {
         </div>
       ) : (
         <div className="space-y-4">
-          {favorites.map((subsidy) => (
+          {savedSubsidies.map((subsidy) => (
             <div
               key={subsidy.id}
               className="bg-white rounded-xl border border-slate-100 shadow-sm p-5"
