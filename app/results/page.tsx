@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getAllSubsidies } from '@/data/index'
 import { filterSubsidies } from '@/lib/filterSubsidies'
-import SubsidyCard from '@/components/results/SubsidyCard'
+import ResultsClient from '@/components/results/ResultsClient'
 import type { UserProfile, FamilyStructure, EmploymentType, SubsidyCategory } from '@/types/subsidy'
 import { FAMILY_LABELS, EMPLOYMENT_LABELS } from '@/lib/constants'
 
@@ -79,11 +79,7 @@ export default async function ResultsPage({
       </h1>
 
       {results.length > 0 ? (
-        <div className="space-y-4">
-          {results.map((result) => (
-            <SubsidyCard key={result.subsidy.id} result={result} />
-          ))}
-        </div>
+        <ResultsClient results={results} />
       ) : (
         <div className="text-center py-16 text-slate-500 bg-white rounded-xl border border-slate-100">
           <p className="mb-2 text-lg">😔</p>
