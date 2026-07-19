@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import { getSubsidyById } from '@/data/index'
 import SubsidySummary from '@/components/detail/SubsidySummary'
 import DisclaimerBanner from '@/components/detail/DisclaimerBanner'
@@ -11,6 +12,32 @@ import {
   PROVIDER_COLORS,
 } from '@/lib/constants'
 import FavoriteButton from '@/components/common/FavoriteButton'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const subsidy = getSubsidyById(id)
+
+  if (!subsidy) return { title: '制度が見つかりません' }
+
+  return {
+    title: subsidy.name,
+    description: subsidy.shortDescription,
+    openGraph: {
+      title: subsidy.name,
+      description: subsidy.shortDescription,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: subsidy.name,
+      description: subsidy.shortDescription,
+    },
+  }
+}
 
 export default async function SubsidyDetailPage({
   params,

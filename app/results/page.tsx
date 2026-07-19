@@ -1,9 +1,27 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { getAllSubsidies } from '@/data/index'
 import { filterSubsidies } from '@/lib/filterSubsidies'
 import ResultsClient from '@/components/results/ResultsClient'
 import type { UserProfile, FamilyStructure, EmploymentType, SubsidyCategory } from '@/types/subsidy'
 import { FAMILY_LABELS, EMPLOYMENT_LABELS } from '@/lib/constants'
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}): Promise<Metadata> {
+  const params = await searchParams
+  const pref = params.pref ? String(params.pref) : null
+  const title =
+    pref && pref !== '全国' ? `${pref}の支援制度 検索結果` : '支援制度 検索結果'
+
+  return {
+    title,
+    description: 'あなたの条件に合う補助金・支援制度の一覧です。',
+    robots: { index: false, follow: false },
+  }
+}
 
 export default async function ResultsPage({
   searchParams,

@@ -1,4 +1,11 @@
+import type { Metadata } from 'next'
 import SearchForm from '@/components/search/SearchForm'
+
+export const metadata: Metadata = {
+  title: '支援制度を探す',
+  description:
+    '年齢・家族構成・お住まいの地域などを入力して、あなたに合う補助金・支援制度を探せます。',
+}
 
 export default function SearchPage() {
   return (
