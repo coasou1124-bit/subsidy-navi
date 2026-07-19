@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { SearchResult } from '@/types/subsidy'
 import { CATEGORY_LABELS, CATEGORY_ICONS, CATEGORY_COLORS, PROVIDER_LABELS } from '@/lib/constants'
+import FavoriteButton from '@/components/common/FavoriteButton'
 
 interface Props {
   result: SearchResult
@@ -52,14 +53,17 @@ export default function ResultCard({ result, rank }: Props) {
     <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col">
       <div className="px-4 pt-4 pb-3 flex-1 space-y-3">
         {/* ヘッダー */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="w-5 h-5 bg-blue-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center flex-shrink-0">
-            {rank}
-          </span>
-          <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${CATEGORY_COLORS[subsidy.category]}`}>
-            {CATEGORY_ICONS[subsidy.category]} {CATEGORY_LABELS[subsidy.category]}
-          </span>
-          <span className="text-[10px] text-slate-400">{PROVIDER_LABELS[subsidy.providerLevel]}</span>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="w-5 h-5 bg-blue-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center flex-shrink-0">
+              {rank}
+            </span>
+            <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${CATEGORY_COLORS[subsidy.category]}`}>
+              {CATEGORY_ICONS[subsidy.category]} {CATEGORY_LABELS[subsidy.category]}
+            </span>
+            <span className="text-[10px] text-slate-400">{PROVIDER_LABELS[subsidy.providerLevel]}</span>
+          </div>
+          <FavoriteButton subsidyId={subsidy.id} />
         </div>
 
         <h3 className="font-bold text-slate-800 text-sm leading-snug">{subsidy.name}</h3>

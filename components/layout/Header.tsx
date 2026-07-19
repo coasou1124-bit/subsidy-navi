@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import FavoritesLink from './FavoritesLink'
 
 export default function Header() {
   return (
@@ -11,6 +12,7 @@ export default function Header() {
           </span>
         </Link>
         <nav className="flex items-center gap-4 text-sm">
+          <FavoritesLink />
           <Link href="/disclaimer" className="text-slate-500 hover:text-slate-700 transition-colors">
             免責事項
           </Link>

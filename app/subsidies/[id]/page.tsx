@@ -10,6 +10,7 @@ import {
   PROVIDER_LABELS,
   PROVIDER_COLORS,
 } from '@/lib/constants'
+import FavoriteButton from '@/components/common/FavoriteButton'
 
 export default async function SubsidyDetailPage({
   params,
@@ -43,7 +44,10 @@ export default async function SubsidyDetailPage({
           </span>
         </div>
 
-        <h1 className="text-2xl font-bold text-slate-800 mb-1">{subsidy.name}</h1>
+        <div className="flex items-start justify-between gap-3 mb-1">
+          <h1 className="text-2xl font-bold text-slate-800">{subsidy.name}</h1>
+          <FavoriteButton subsidyId={subsidy.id} />
+        </div>
         <p className="text-slate-500 text-sm mb-2">提供：{subsidy.providerName}</p>
         <p className="text-slate-600 mb-6 leading-relaxed">{subsidy.shortDescription}</p>
 
