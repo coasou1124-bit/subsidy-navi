@@ -8,9 +8,20 @@ export default function ChatWindow() {
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
+  const hasScrolledToResults = useRef(false)
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const hasResults = state.messages.some((m) => m.results && m.results.length > 0)
+    if (hasResults && !hasScrolledToResults.current) {
+      hasScrolledToResults.current = true
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    } else if (!hasResults) {
+      hasScrolledToResults.current = false
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
   }, [state.messages, isTyping])
 
   const handleSend = useCallback(
@@ -35,7 +46,12 @@ export default function ChatWindow() {
       <div className="flex-1 overflow-y-auto py-6 min-h-0">
         <div className="max-w-3xl mx-auto px-4 space-y-4">
           {state.messages.map((msg) => (
-            <ChatMessage key={msg.id} message={msg} onSend={handleSend} />
+            <ChatMessage
+              key={msg.id}
+              message={msg}
+              onSend={handleSend}
+              resultsRef={msg.results && msg.results.length > 0 ? resultsRef : undefined}
+            />
           ))}
 
           {isTyping && (

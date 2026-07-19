@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import Link from 'next/link'
 import type { ChatMessage as ChatMessageType } from '@/lib/chatFlow'
 import ResultCard from './ResultCard'
@@ -23,9 +23,11 @@ function formatContent(content: string): ReactNode[] {
 export default function ChatMessage({
   message,
   onSend,
+  resultsRef,
 }: {
   message: ChatMessageType
   onSend?: (text: string) => void
+  resultsRef?: RefObject<HTMLDivElement | null>
 }) {
   const isUser = message.role === 'user'
 
@@ -53,7 +55,7 @@ export default function ChatMessage({
 
       {/* 制度カード */}
       {message.results && message.results.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div ref={resultsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {message.results.map((result, idx) => (
             <ResultCard key={result.subsidy.id} result={result} rank={idx + 1} />
           ))}
